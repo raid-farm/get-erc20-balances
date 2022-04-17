@@ -1,0 +1,19 @@
+{
+  "name": "@raiddotfarm/erc20-balances",
+  "version": "0.1.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "WTFPL",
+  "description": " ",
+  "dependencies": {
+    "ethers": "^5.6.2"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "why-is-node-running": "^2.2.1"
+  }
+}

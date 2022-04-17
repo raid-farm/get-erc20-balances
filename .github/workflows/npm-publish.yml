@@ -1,0 +1,48 @@
+name: NPM Publish
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Begin...
+        uses: actions/checkout@v2
+
+      - name: Use Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test
+        run: npx jest --testTimeout 50000
+        env:
+          MAINNET_RPC: ${{secrets.MAINNET_RPC}}
+
+      - name: Commit test results
+        run: |
+          echo ${{ github.ref }}
+          git add .
+          git config --local user.email "gm@raid.farm"
+          git config --local user.name "raiddotfarmbot"
+          git commit -m "Beep Bop" -a | exit 0
+
+      - name: Push changes to GitHub
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Bumping version
+        uses: "phips28/gh-action-bump-version@master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Publishing to NPM
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc && npm publish --access public
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
