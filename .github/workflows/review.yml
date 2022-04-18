@@ -1,0 +1,12 @@
+name: Request Review
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request review
+        uses: murs313/request-review@v1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          reviewers: "ayshptk"
